@@ -4,13 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
-import android.util.Log;
-import androidx.annotation.Nullable;
 
 import static android.provider.BaseColumns._ID;
 import static com.golovkobalak.cashbot.repo.CashEngineDB.CashFlow.*;
 import static com.golovkobalak.cashbot.repo.CashEngineDB.Chat.CHAT_ID;
-import static com.golovkobalak.cashbot.repo.CashEngineDB.Chat.TABLE;
 
 
 public class CashEngineDB extends SQLiteOpenHelper {
@@ -21,7 +18,7 @@ public class CashEngineDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE + " (" +
+        db.execSQL("create table " + Chat.TABLE + " (" +
                 _ID + " integer primary key autoincrement, " +
                 CHAT_ID + " integer," +
                 "name TEXT" +
@@ -33,13 +30,15 @@ public class CashEngineDB extends SQLiteOpenHelper {
                 SPENDER_ID + " text," +
                 MONEY_SUM + " integer," +
                 CREATE_DATE + " date," +
-                "FOREIGN KEY(" + CHAT_ID + ") REFERENCES " + TABLE + "(" + _ID + ")" +
+                "FOREIGN KEY(" + CHAT_ID + ") REFERENCES " + CashFlow.TABLE + "(" + _ID + ")" +
                 ")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + Chat.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + CashFlow.TABLE);
+        onCreate(db);
     }
 
     public static class Chat implements BaseColumns {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import com.golovkobalak.cashbot.R;
 import com.golovkobalak.cashbot.repo.CashEngineDB;
 import com.golovkobalak.cashbot.repo.CashEngineDB.Chat;
 import com.pengrad.telegrambot.TelegramBot;
@@ -20,10 +21,10 @@ import java.util.List;
 import static com.golovkobalak.cashbot.repo.CashEngineDB.Chat.CHAT_ID;
 
 public class CashBot {
-    public long chatId;
-    private final String token = "1200817060:AAHVr7MSir1CwPIpJ99XLAksY61JrxqLUWs";
-    private TelegramBot bot = new TelegramBot(token);
     private Context context;
+    public long chatId;
+    private final String token = context.getString(R.string.bot_token);
+    private TelegramBot bot = new TelegramBot(token);
     private final CashEngineDB db;
     private final SQLiteDatabase readableDB;
     private final SQLiteDatabase writableDB;

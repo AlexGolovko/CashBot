@@ -37,7 +37,8 @@ task pmd(type: Pmd) {
     ignoreFailures = false
     ruleSets = []
     source 'src'
-    exclude '**/*.kt'
+    include '**/*.java'
+    exclude '**/*.kt '
     exclude '**/gen/**'
     reports {
         xml.enabled = false
