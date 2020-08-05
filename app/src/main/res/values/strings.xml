@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CashBot</string>
+    <string name="bot_token"></string>
 </resources>
