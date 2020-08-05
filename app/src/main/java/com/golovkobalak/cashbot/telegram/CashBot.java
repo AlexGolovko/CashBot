@@ -17,28 +17,26 @@ import com.pengrad.telegrambot.request.SendMessage;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.golovkobalak.cashbot.repo.CashEngineDB.Chat.CHAT_ID;
 
 public class CashBot {
-    private Context context;
-    public long chatId;
-    private final String token = context.getString(R.string.bot_token);
-    private TelegramBot bot = new TelegramBot(token);
-    private final CashEngineDB db;
+    private final TelegramBot bot;
     private final SQLiteDatabase readableDB;
     private final SQLiteDatabase writableDB;
 
     public CashBot(Context context) {
-        this.context = context;
-        db = new CashEngineDB(context);
+        CashEngineDB db = new CashEngineDB(context);
         readableDB = db.getReadableDatabase();
         writableDB = db.getWritableDatabase();
+        String token = context.getString(R.string.bot_token);
+        bot = new TelegramBot(token);
     }
 
-    public void sendMessage(String s) {
-        bot.execute(new GetChat(chatId));
-        bot.execute(new SendMessage(chatId, s));
+    public void sendMessage(String chatID, String s) {
+        bot.execute(new GetChat(chatID));
+        bot.execute(new SendMessage(chatID, s));
     }
 
     public void postConstruct() {
@@ -59,7 +57,6 @@ public class CashBot {
                                 chatId = writableDB.insert(Chat.TABLE, null, chat);
                             }
                             cursor.close();
-                            String message = update.message().text();
                             Cursor cashFlow = readableDB.rawQuery("select * from cash_flow where chat_id=? order by CREATE_DATE desc", new String[]{String.valueOf(chatId)});
                             if (cashFlow.moveToFirst()) {
 
@@ -68,7 +65,7 @@ public class CashBot {
                                 cashFlowEntity.put(CashEngineDB.CashFlow.SPENDER_ID, update.message().from().id());
                                 cashFlowEntity.put(CashEngineDB.CashFlow.SPENDER_NAME, update.message().from().firstName());
                                 cashFlowEntity.put(CashEngineDB.CashFlow.MONEY_SUM, update.message().text());
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                                 Date date = new Date();
                                 cashFlowEntity.put(CashEngineDB.CashFlow.CREATE_DATE, dateFormat.format(date));
 
