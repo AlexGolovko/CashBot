@@ -32,6 +32,13 @@ public class CashEngineDB extends SQLiteOpenHelper {
                 CREATE_DATE + " date," +
                 "FOREIGN KEY(" + CHAT_ID + ") REFERENCES " + CashFlow.TABLE + "(" + _ID + ")" +
                 ")");
+        db.execSQL("create table CASH_STATE (" +
+                "_id integer primary key autoincrement, " +
+                "SPENDER_ID text," +
+                "SPENDER_NAME text," +
+                "CASH_STATE integer," +
+                "FOREIGN KEY (CHAT_ID)REFERENCES cashflow(_id)" +
+                ")");
     }
 
     @Override
@@ -52,5 +59,12 @@ public class CashEngineDB extends SQLiteOpenHelper {
         public static final String SPENDER_ID = "spender_id";
         public static final String MONEY_SUM = "money_sum";
         public static final String CREATE_DATE = "CREATE_DATE";
+    }
+
+    public static class CashState implements BaseColumns {
+        public static final String TABLE = "CASH_STATE";
+        public static final String SPENDER_ID = "SPENDER_ID";
+        public static final String CASH_STATE = "CASH_STATE";
+        public static final String SPENDER_NAME = "SPENDER_NAME";
     }
 }

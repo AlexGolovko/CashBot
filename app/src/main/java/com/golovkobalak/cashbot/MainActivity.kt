@@ -2,6 +2,7 @@ package com.golovkobalak.cashbot
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.golovkobalak.cashbot.telegram.CashBot
 
 /**
  * Skeleton of an Android Things activity.
@@ -22,5 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val bot = CashBot(applicationContext)
+        bot.postConstruct()
     }
 }
