@@ -1,5 +1,6 @@
 package com.golovkobalak.cashbot.repo;
 
+import com.pengrad.telegrambot.model.Message;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
@@ -58,5 +59,14 @@ public class CashState extends RealmObject {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void fill(Message message) {
+        spenderId = (long) message.from().id();
+        spenderName = message.from().username();
+        if (cashState == null) {
+            cashState = Long.valueOf(message.text());
+        }
+        cashState += Long.valueOf(message.text());
     }
 }

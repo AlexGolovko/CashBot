@@ -34,11 +34,10 @@ pmd {
 
 task pmd(type: Pmd) {
     ruleSetFiles = files("${project.rootDir}/tools/pmd-rules.xml")
-    ignoreFailures = false
+    ignoreFailures = true
     ruleSets = []
     source 'src'
     include '**/*.java'
-    exclude '**/*.kt '
     exclude '**/gen/**'
     reports {
         xml.enabled = false
