@@ -24,7 +24,11 @@ public class CashStateRepo {
 
     public List<CashState> findAllByChatId(Chat chat) {
         final RealmResults<CashState> all = realm.where(CashState.class).equalTo("chat.id", chat.getId()).sort(CashState.SPENDER_NAME).findAll();
-        return new ArrayList<>(all);
+        final ArrayList<CashState> cashStates = new ArrayList<>(all.size());
+        for (CashState cashState : all) {
+            cashStates.add(cashState.copy());
+        }
+        return cashStates;
     }
 
 }

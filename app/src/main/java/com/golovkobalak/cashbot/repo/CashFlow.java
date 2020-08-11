@@ -1,5 +1,6 @@
 package com.golovkobalak.cashbot.repo;
 
+import com.pengrad.telegrambot.model.Message;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -14,7 +15,7 @@ public class CashFlow extends RealmObject {
     private String spenderName;
     private String spenderId;
     private int moneySum;
-    private Date CreateDate;
+    private Date createDate;
 
     public Chat getChat() {
         return chat;
@@ -49,11 +50,11 @@ public class CashFlow extends RealmObject {
     }
 
     public Date getCreateDate() {
-        return CreateDate;
+        return createDate;
     }
 
     public void setCreateDate(Date createDate) {
-        CreateDate = createDate;
+        this.createDate = createDate;
     }
 
     public String getId() {
@@ -62,5 +63,13 @@ public class CashFlow extends RealmObject {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public CashFlow fill(Message message) {
+        this.spenderName = message.from().firstName();
+        this.spenderId = String.valueOf(message.from().id());
+        this.moneySum = Integer.parseInt(message.text());
+        this.createDate = new Date();
+        return this;
     }
 }

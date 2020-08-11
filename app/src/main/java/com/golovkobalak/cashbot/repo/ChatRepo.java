@@ -11,7 +11,7 @@ public class ChatRepo {
         this.realm = Realm.getDefaultInstance();
     }
 
-    public ChatRepo( Realm realm) {
+    public ChatRepo(Realm realm) {
         this.realm = realm;
     }
 

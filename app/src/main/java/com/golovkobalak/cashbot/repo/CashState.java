@@ -1,6 +1,10 @@
 package com.golovkobalak.cashbot.repo;
 
+import android.graphics.ComposeShader;
+import androidx.annotation.NonNull;
+import com.google.gson.annotations.Expose;
 import com.pengrad.telegrambot.model.Message;
+import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
@@ -8,10 +12,10 @@ import io.realm.annotations.RealmClass;
 import java.util.UUID;
 
 public class CashState extends RealmObject {
-    public static final String TABLE = "CASH_STATE";
-    public static final String SPENDER_ID = "SPENDER_ID";
-    public static final String CASH_STATE = "CASH_STATE";
-    public static final String SPENDER_NAME = "SPENDER_NAME";
+    public static final String TABLE = "cashState";
+    public static final String SPENDER_ID = "spenderId";
+    public static final String CASH_STATE = "cashState";
+    public static final String SPENDER_NAME = "spenderName";
 
     @PrimaryKey
     private String id = UUID.randomUUID().toString();
@@ -19,6 +23,18 @@ public class CashState extends RealmObject {
     private Long spenderId;
     private String spenderName;
     private Long cashState;
+
+    public CashState() {
+        super();
+    }
+
+    private CashState(CashState cashState) {
+        this.id = cashState.id;
+        this.chat = cashState.chat;
+        this.spenderId = cashState.spenderId;
+        this.spenderName = cashState.spenderName;
+        this.cashState = cashState.cashState;
+    }
 
 
     public Chat getChat() {
@@ -63,10 +79,18 @@ public class CashState extends RealmObject {
 
     public void fill(Message message) {
         spenderId = (long) message.from().id();
-        spenderName = message.from().username();
+        spenderName = message.from().firstName();
         if (cashState == null) {
             cashState = Long.valueOf(message.text());
         }
         cashState += Long.valueOf(message.text());
+    }
+
+    public CashState copy() {
+        return new CashState(this);
+    }
+
+    public String toMessage() {
+        return this.spenderName + " : " + this.cashState;
     }
 }
