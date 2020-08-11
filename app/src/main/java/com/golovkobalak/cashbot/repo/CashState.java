@@ -82,8 +82,9 @@ public class CashState extends RealmObject {
         spenderName = message.from().firstName();
         if (cashState == null) {
             cashState = Long.valueOf(message.text());
+        } else {
+            cashState += Long.valueOf(message.text());
         }
-        cashState += Long.valueOf(message.text());
     }
 
     public CashState copy() {

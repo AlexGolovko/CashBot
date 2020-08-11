@@ -8,6 +8,8 @@ import com.golovkobalak.cashbot.repo.CashFlow;
 import com.golovkobalak.cashbot.repo.CashFlowRepo;
 import com.golovkobalak.cashbot.repo.Chat;
 import com.golovkobalak.cashbot.repo.ChatRepo;
+import com.golovkobalak.cashbot.telegram.CashBot;
+import com.golovkobalak.cashbot.telegram.UpdatesListener;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import org.junit.Before;

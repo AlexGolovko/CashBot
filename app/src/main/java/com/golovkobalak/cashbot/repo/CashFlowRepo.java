@@ -3,6 +3,7 @@ package com.golovkobalak.cashbot.repo;
 import android.content.Context;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,5 +39,9 @@ public class CashFlowRepo {
     public List<CashFlow> findAllByChat(Chat chat) {
         RealmResults<CashFlow> cashFlows = realm.where(CashFlow.class).equalTo("chat.id", chat.getId()).findAll();
         return Collections.unmodifiableList(new ArrayList<>(cashFlows));
+    }
+
+    public List<CashFlow> findAllByChatAfterDate(Chat chat, Date date) {
+        return realm.where(CashFlow.class).equalTo("chat.id", chat.getId()).between("createDate", date, new Date()).sort("createDate", Sort.DESCENDING).findAll();
     }
 }
