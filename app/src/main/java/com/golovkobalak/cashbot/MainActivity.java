@@ -1,7 +1,7 @@
 package com.golovkobalak.cashbot;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import com.golovkobalak.cashbot.telegram.CashBot;
 import com.golovkobalak.cashbot.telegram.UpdatesListener;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -9,12 +9,12 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.security.ProviderInstaller;
 
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLEngine;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
-    private static CashBot cashBot;
+    private CashBot cashBot;
+    private UpdatesListener updatesListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +26,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
         }
-        SSLContext sslContext = null;
         try {
-            sslContext = SSLContext.getInstance("TLSv1.2");
+            SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
             sslContext.init(null, null, null);
             sslContext.createSSLEngine();
         } catch (NoSuchAlgorithmException e) {
@@ -37,10 +36,15 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         setContentView(R.layout.activity_main);
-        cashBot = new CashBot(getApplicationContext());
-        final UpdatesListener updatesListener = new UpdatesListener(getApplicationContext());
-        cashBot.setUpdatesListener(updatesListener);
-
+        if (cashBot == null) {
+            cashBot = new CashBot(getApplicationContext());
+            updatesListener = new UpdatesListener(getApplicationContext());
+            cashBot.setUpdatesListener(updatesListener);
+        }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cashBot.onDestroy();}
 }

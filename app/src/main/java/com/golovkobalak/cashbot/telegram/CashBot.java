@@ -23,4 +23,8 @@ public class CashBot {
         listener.setBot(this);
         bot.setUpdatesListener(listener);
     }
+
+    public void onDestroy() {
+        bot.removeGetUpdatesListener();
+    }
 }
