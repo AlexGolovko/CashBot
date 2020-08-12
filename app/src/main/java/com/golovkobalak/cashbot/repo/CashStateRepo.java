@@ -1,6 +1,7 @@
 package com.golovkobalak.cashbot.repo;
 
 import android.content.Context;
+import com.golovkobalak.cashbot.migration.CashBotConfiguration;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -12,7 +13,7 @@ public class CashStateRepo {
 
     public CashStateRepo(Context ctx) {
         Realm.init(ctx);
-        this.realm = Realm.getDefaultInstance();
+        this.realm = Realm.getInstance(CashBotConfiguration.getConfig());
     }
 
     public String saveCashState(CashState cashState) {

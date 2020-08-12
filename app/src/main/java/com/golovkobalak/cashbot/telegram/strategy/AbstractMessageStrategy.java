@@ -1,6 +1,7 @@
 package com.golovkobalak.cashbot.telegram.strategy;
 
 import android.content.Context;
+import android.util.Log;
 import com.golovkobalak.cashbot.repo.CashFlowRepo;
 import com.golovkobalak.cashbot.repo.CashStateRepo;
 import com.golovkobalak.cashbot.repo.ChatRepo;
@@ -21,9 +22,13 @@ public abstract class AbstractMessageStrategy implements Strategy {
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
-                    chatRepo = new ChatRepo(context);
-                    cashStateRepo = new CashStateRepo(context);
-                    cashFlowRepo = new CashFlowRepo(context);
+                    try {
+                        chatRepo = new ChatRepo(context);
+                        cashStateRepo = new CashStateRepo(context);
+                        cashFlowRepo = new CashFlowRepo(context);
+                    } catch (Exception e) {
+                        Log.e(this.getClass().toString(), this.toString(), e);
+                    }
                 }
             });
 

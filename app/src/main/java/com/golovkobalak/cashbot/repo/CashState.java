@@ -80,10 +80,13 @@ public class CashState extends RealmObject {
     public void fill(Message message) {
         spenderId = (long) message.from().id();
         spenderName = message.from().firstName();
-        if (cashState == null) {
-            cashState = Long.valueOf(message.text());
+        final String messageText = message.text().trim();
+        if (messageText.contains(" ")) {
+            final int spaceIndex = messageText.indexOf(' ');
+            final String moneySum = messageText.substring(0, spaceIndex);
+            this.cashState = Long.parseLong(moneySum);
         } else {
-            cashState += Long.valueOf(message.text());
+            this.cashState = Long.parseLong(messageText);
         }
     }
 

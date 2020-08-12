@@ -45,13 +45,19 @@ public class CommandStrategy extends AbstractMessageStrategy {
                     int sum = 0;
                     for (CashFlow cashFlow : cashFlows) {
                         sum += cashFlow.getMoneySum();
-                        builder.append(cashFlow.getCreateDate()).append('\t').append(cashFlow.getSpenderName()).append(':').append(cashFlow.getMoneySum()).append('\n');
+                        builder.append(cashFlow.getCreateDate())
+                                .append('\t')
+                                .append(cashFlow.getSpenderName())
+                                .append(':')
+                                .append(cashFlow.getMoneySum())
+                                .append('\t')
+                                .append(cashFlow.getComment() == null ? "" : cashFlow.getComment())
+                                .append('\n');
                     }
                     builder.append("Result: ").append(sum);
                     return builder.toString();
                 }
                 return UNSUPPORTED_COMMAND;
-
             }
         });
         try {

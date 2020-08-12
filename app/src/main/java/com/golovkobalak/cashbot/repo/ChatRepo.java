@@ -1,6 +1,7 @@
 package com.golovkobalak.cashbot.repo;
 
 import android.content.Context;
+import com.golovkobalak.cashbot.migration.CashBotConfiguration;
 import io.realm.Realm;
 
 public class ChatRepo {
@@ -8,7 +9,7 @@ public class ChatRepo {
 
     public ChatRepo(Context ctx) {
         Realm.init(ctx);
-        this.realm = Realm.getDefaultInstance();
+        this.realm = Realm.getInstance(CashBotConfiguration.getConfig());
     }
 
     public ChatRepo(Realm realm) {

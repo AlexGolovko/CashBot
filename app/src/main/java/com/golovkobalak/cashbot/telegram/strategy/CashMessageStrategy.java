@@ -50,11 +50,12 @@ public class CashMessageStrategy extends AbstractMessageStrategy {
         final List<CashState> cashStateList = cashStateRepo.findAllByChatId(chat);
         final CashFlow cashFlow = new CashFlow().fill(message);
         cashFlow.setChat(chat);
+        final int moneySum = cashFlow.getMoneySum();
         cashFlowRepo.save(cashFlow);
         CashState cashStateNew = null;
         for (CashState cashState : cashStateList) {
             if (message.from().id().longValue() == cashState.getSpenderId()) {
-                final long cashStateValue = cashState.getCashState() + Long.parseLong(message.text());
+                final long cashStateValue = cashState.getCashState() + moneySum;
                 cashStateNew = cashState.copy();
                 cashStateNew.setCashState(cashStateValue);
             }

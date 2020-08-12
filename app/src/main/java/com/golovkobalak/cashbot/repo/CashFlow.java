@@ -16,6 +16,25 @@ public class CashFlow extends RealmObject {
     private String spenderId;
     private int moneySum;
     private Date createDate;
+    private String comment;
+
+
+    public CashFlow fill(final Message message) {
+        this.spenderName = message.from().firstName();
+        this.spenderId = String.valueOf(message.from().id());
+        final String messageText = message.text().trim();
+        if (messageText.contains(" ")) {
+            final int spaceIndex = messageText.indexOf(' ');
+            final String moneySum = messageText.substring(0, spaceIndex);
+            this.moneySum = Integer.parseInt(moneySum);
+            this.comment = messageText.substring(spaceIndex + 1);
+
+        } else {
+            this.moneySum = Integer.parseInt(messageText);
+        }
+        this.createDate = new Date();
+        return this;
+    }
 
     public Chat getChat() {
         return chat;
@@ -65,11 +84,12 @@ public class CashFlow extends RealmObject {
         this.id = id;
     }
 
-    public CashFlow fill(Message message) {
-        this.spenderName = message.from().firstName();
-        this.spenderId = String.valueOf(message.from().id());
-        this.moneySum = Integer.parseInt(message.text());
-        this.createDate = new Date();
-        return this;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

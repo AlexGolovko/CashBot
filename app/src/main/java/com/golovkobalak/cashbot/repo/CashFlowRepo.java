@@ -1,6 +1,7 @@
 package com.golovkobalak.cashbot.repo;
 
 import android.content.Context;
+import com.golovkobalak.cashbot.migration.CashBotConfiguration;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -16,7 +17,7 @@ public class CashFlowRepo {
 
     public CashFlowRepo(Context context) {
         Realm.init(context);
-        realm = Realm.getDefaultInstance();
+        realm = Realm.getInstance(CashBotConfiguration.getConfig());
     }
 
     public CashFlowRepo(Realm realm) {
@@ -42,6 +43,6 @@ public class CashFlowRepo {
     }
 
     public List<CashFlow> findAllByChatAfterDate(Chat chat, Date date) {
-        return realm.where(CashFlow.class).equalTo("chat.id", chat.getId()).between("createDate", date, new Date()).sort("createDate", Sort.DESCENDING).findAll();
+        return realm.where(CashFlow.class).equalTo("chat.id", chat.getId()).between("createDate", date, new Date()).sort("createDate", Sort.ASCENDING).findAll();
     }
 }
