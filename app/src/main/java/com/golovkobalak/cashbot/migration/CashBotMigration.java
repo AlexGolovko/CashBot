@@ -1,6 +1,5 @@
 package com.golovkobalak.cashbot.migration;
 
-import com.golovkobalak.cashbot.repo.CashFlow;
 import io.realm.DynamicRealm;
 import io.realm.RealmMigration;
 import io.realm.RealmSchema;

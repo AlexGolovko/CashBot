@@ -2,6 +2,7 @@ package com.golovkobalak.cashbot.telegram;
 
 import android.content.Context;
 import com.golovkobalak.cashbot.R;
+import com.golovkobalak.cashbot.repo.CashFlow;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.GetChat;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -23,6 +24,7 @@ public class CashBot {
         listener.setBot(this);
         bot.setUpdatesListener(listener);
     }
+
 
     public void onDestroy() {
         bot.removeGetUpdatesListener();

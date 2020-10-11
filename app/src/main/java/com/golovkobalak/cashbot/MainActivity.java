@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private CashBot cashBot;
     private UpdatesListener updatesListener;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
